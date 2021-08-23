@@ -1,12 +1,13 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable no-console */
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
 import logger from '../server/common/Logger';
 
 dotenv.config();
 
 console.log(`Environment: ${process.env.NODE_ENV}`);
 
-export const enviroment = {
+const enviroment = {
   dbConfig: {
     username: process.env.DATABASE_USERNAME,
     password: process.env.DATABASE_PASSWORD,
@@ -21,6 +22,8 @@ export const enviroment = {
   },
   logLevel: process.env.LOG_LEVEL || 'debug',
   logging: (sql, timing) => {
-    logger.info(sql, typeof timing === 'number' ? `Δ: ${timing}ms` : '')
-  }
+    logger.info(sql, typeof timing === 'number' ? `Δ: ${timing}ms` : '');
+  },
 };
+
+export default enviroment;

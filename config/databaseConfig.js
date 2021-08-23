@@ -1,6 +1,5 @@
-'use strict';
 import pino from 'pino';
-import { enviroment } from './enviroment';
+import enviroment from './enviroment';
 
 const logger = pino({
   level: 'debug',
@@ -29,8 +28,7 @@ const databaseConfig = {
   },
   timezone: '-03:00',
   autoreconnect: true,
-  logging: (sql, timing) =>
-    logger.info(sql, typeof timing === 'number' ? `Δ: ${timing}ms` : ''),
+  logging: (sql, timing) => logger.info(sql, typeof timing === 'number' ? `Δ: ${timing}ms` : ''),
 };
 
 export default databaseConfig;

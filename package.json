@@ -7,6 +7,7 @@
     "dev": "nodemon --exec babel-node server/index.js"
   },
   "dependencies": {
+    "body-parser": "^1.19.0",
     "callsite": "^1.0.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",

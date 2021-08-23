@@ -1,4 +1,4 @@
-import { enviroment } from '../../config/enviroment';
+import enviroment from '../../config/enviroment';
 
 export default {
   underscore: true,
