@@ -9,20 +9,3 @@ services:
       POSTGRES_DB: open-market
     ports: 
       - '5432:5432'
-  app:
-    image: node:alpine
-    container_name: app
-    restart: always
-    depends_on: 
-      - postgresdb
-    ports: 
-      - '4000:4000'
-    volumes: 
-      - .:/usr/app
-    working_dir: /usr/app
-    command: sh -c "yarn sequelize db:migrate && yarn dev"
-    logging: 
-      driver: "json-file"
-      options: 
-        max-size: "10m"
-        max-file: "5"
