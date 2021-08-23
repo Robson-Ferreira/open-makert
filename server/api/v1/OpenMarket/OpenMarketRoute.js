@@ -9,7 +9,7 @@ import {
 
 export default express
   .Router()
-  .get('/get-by-params', getByParams)
-  .post('/create', create)
-  .delete('/delete/:id', deleteById)
-  .put('/update/:id', update);
+  .get('/', getByParams)
+  .post('/', create)
+  .delete('/:id', deleteById)
+  .put('/:id', update);

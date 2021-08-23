@@ -2,6 +2,7 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable import/named */
 import i18n from 'i18n';
+import { Op } from 'sequelize';
 import OpenMarketValidation from './OpenMarketValidation';
 import NotFoundError from '../../../exceptions/NotFoundError';
 
@@ -29,19 +30,27 @@ export default class OpenMarketService {
     const whereCondition = {};
 
     if (district) {
-      whereCondition.district = district;
+      whereCondition.district = {
+        [Op.iLike]: `%${district}%`,
+      };
     }
 
     if (region) {
-      whereCondition.region5 = region;
+      whereCondition.region5 = {
+        [Op.iLike]: `%${region}%`,
+      };
     }
 
     if (name) {
-      whereCondition.name = name;
+      whereCondition.name = {
+        [Op.iLike]: `%${name}%`,
+      };
     }
 
     if (neighborhood) {
-      whereCondition.neighborhood = neighborhood;
+      whereCondition.neighborhood = {
+        [Op.iLike]: `%${neighborhood}%`,
+      };
     }
 
     return whereCondition;
@@ -58,8 +67,8 @@ export default class OpenMarketService {
     return data;
   }
 
-  async create() {
-    const { body } = this.req;
+  async create(req) {
+    const { body } = req;
     await this.validate('create', body);
 
     return OpenMarket.create(body, {

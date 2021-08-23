@@ -20,7 +20,7 @@ const create = async (req, res, next) => {
     Logger.debug(`Request -> ${JSON.stringify(req.ip)}`);
     Logger.debug(`Body -> ${JSON.stringify(req.body)}`);
     const action = new OpenMarketService(req);
-    const data = await action.create();
+    const data = await action.create(req);
     res.json(data);
   } catch (error) {
     Logger.error(error);
