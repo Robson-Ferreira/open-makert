@@ -1,12 +1,12 @@
+/* eslint-disable no-underscore-dangle */
+import moment from 'moment';
+import i18n from 'i18n';
 import modelOptions from '../common/modelOptions';
+import log from '../../log';
 
 export default (sequelize, DataTypes) => {
   const columns = {
-    externalPk: {
-      field: 'external_pk',
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
+    externalPk: DataTypes.INTEGER,
     name: DataTypes.STRING,
     longitude: DataTypes.STRING,
     latitude: DataTypes.STRING,
@@ -28,6 +28,13 @@ export default (sequelize, DataTypes) => {
   };
 
   const OpenMarket = sequelize.define('OpenMarket', columns, modelOptions);
+
+  OpenMarket.afterBulkCreate(() => {
+    log(`${JSON.stringify({
+      type: 'dataLoad',
+      message: i18n.__('data.sucess.log.loaded', { date: moment().format('lll') }),
+    })} \n\n`);
+  });
 
   return OpenMarket;
 };

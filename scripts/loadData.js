@@ -2,8 +2,9 @@
 /* eslint-disable import/named */
 import xlsFile from 'read-excel-file/node';
 import * as path from 'path';
-
 import { Op } from 'sequelize';
+import Logger from '../server/common/Logger';
+
 import { OpenMarket, sequelize } from '../server/models';
 
 const objectTransform = (arr) => {
@@ -105,6 +106,7 @@ const loadData = async () => {
 
     await transaction.commit();
   } catch (error) {
+    Logger.error(error);
     await transaction.rollback();
   }
 };

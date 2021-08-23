@@ -6,8 +6,8 @@ const getByParams = async (req, res, next) => {
     const { query } = req;
     Logger.debug(`Request -> ${JSON.stringify(req.ip)}`);
     Logger.debug(`Query -> ${JSON.stringify(query)}`);
-    const action = new OpenMarketService(req);
-    const data = await action.getByParams(query);
+    const action = new OpenMarketService();
+    const data = await action.getByParams(req, query);
     res.json(data);
   } catch (error) {
     Logger.error(error);
@@ -19,7 +19,7 @@ const create = async (req, res, next) => {
   try {
     Logger.debug(`Request -> ${JSON.stringify(req.ip)}`);
     Logger.debug(`Body -> ${JSON.stringify(req.body)}`);
-    const action = new OpenMarketService(req);
+    const action = new OpenMarketService();
     const data = await action.create(req);
     res.json(data);
   } catch (error) {
@@ -34,7 +34,7 @@ const update = async (req, res, next) => {
     Logger.debug(`Request -> ${JSON.stringify(req.ip)}`);
     Logger.debug(`Body -> ${JSON.stringify(req.body)}`);
     Logger.debug(`Id Updated -> ${id}`);
-    const action = new OpenMarketService(req);
+    const action = new OpenMarketService();
     const data = await action.update(id, req);
     res.json(data);
   } catch (error) {
@@ -48,7 +48,7 @@ const deleteById = async (req, res, next) => {
     const { id } = req.params;
     Logger.debug(`Request -> ${JSON.stringify(req.ip)}`);
     Logger.debug(`Id Deleted -> ${id}`);
-    const action = new OpenMarketService(req);
+    const action = new OpenMarketService();
     const data = await action.deleteById(id, req);
     res.json(data);
   } catch (error) {

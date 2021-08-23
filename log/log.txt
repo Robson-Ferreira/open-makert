@@ -1,0 +1,14 @@
+{"type":"delete","request":"\"::1\"","deleteId":"1771","date":"Aug 23, 2021 4:07 AM"} 
+
+{"type":"search","request":"\"::1\"","date":"Aug 23, 2021 4:09 AM","query":{"neighborhood":"freguesia"}} 
+
+{"type":"update","request":"\"::1\"","body":"{\"region5\":\"teste\",\"name\":\"teste\",\"neighborhood\":\"teste\",\"district\":\"teste\",\"id\":\"1795\"}","date":"Aug 23, 2021 4:11 AM"} 
+
+{"type":"update","request":"\"::1\"","body":{"region5":"teste","name":"teste","neighborhood":"teste","district":"teste","id":"1795"},"date":"Aug 23, 2021 4:12 AM"} 
+
+{"type":"dataLoad","message":"Carga de dados realizada com sucesso","date":"Aug 23, 2021 4:16 AM"} 
+
+{"type":"dataLoad","message":"Carga de dados realizada com sucesso"} 
+
+{"type":"dataLoad","message":"carga de dados realizada em Aug 23, 2021 4:19 AM"} 
+

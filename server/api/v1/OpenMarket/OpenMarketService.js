@@ -3,9 +3,10 @@
 /* eslint-disable import/named */
 import i18n from 'i18n';
 import { Op } from 'sequelize';
+import moment from 'moment';
 import OpenMarketValidation from './OpenMarketValidation';
 import NotFoundError from '../../../exceptions/NotFoundError';
-
+import log from '../../../../log';
 import { OpenMarket } from '../../../models';
 
 export default class OpenMarketService {
@@ -56,20 +57,36 @@ export default class OpenMarketService {
     return whereCondition;
   }
 
-  async getByParams(query) {
+  async getByParams(req, query) {
     const conditions = this.__getConditions(query);
     const data = await OpenMarket.findAll({
       where: conditions,
     });
+
     if (data.length === 0) {
       return i18n.__('data.empty.message');
     }
+
+    log(`${JSON.stringify({
+      type: 'search',
+      request: JSON.stringify(req.ip),
+      date: moment().format('lll'),
+      query,
+    })} \n\n`);
+
     return data;
   }
 
   async create(req) {
     const { body } = req;
     await this.validate('create', body);
+
+    log(`${JSON.stringify({
+      type: 'update',
+      request: req.ip,
+      body: JSON.stringify(body),
+      date: moment().format('lll'),
+    })} \n\n`);
 
     return OpenMarket.create(body, {
       returning: true,
@@ -83,6 +100,13 @@ export default class OpenMarketService {
     if (actionQuery === null) {
       throw new NotFoundError(i18n.__('validation.data.doesnt.exist'));
     }
+
+    log(`${JSON.stringify({
+      type: 'delete',
+      request: JSON.stringify(req.ip),
+      deleteId: id,
+      date: moment().format('lll'),
+    })} \n\n`);
 
     return OpenMarket.destroy({
       where: { id },
@@ -99,8 +123,15 @@ export default class OpenMarketService {
     const actionQuery = await OpenMarket.findOne({ where: { id } });
 
     if (actionQuery === null) {
-      throw new NotFoundError(req, i18n.__('validation.data.doesnt.exist'));
+      throw new NotFoundError(i18n.__('validation.data.doesnt.exist'));
     }
+
+    log(`${JSON.stringify({
+      type: 'update',
+      request: JSON.stringify(req.ip),
+      body: { ...body, id },
+      date: moment().format('lll'),
+    })} \n\n`);
 
     return OpenMarket.update(body, {
       where: { id },
