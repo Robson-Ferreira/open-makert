@@ -1,0 +1,8 @@
+{
+	"server.welcome": "online e executando em {{env}} @: {{host}} na porta: {{port}}`",
+	"data.already.loaded": "Carga de dados já realizada, verifique seu banco de dados",
+	"data.sucess.loaded": "Carga de dados realizada com sucesso",
+	"data.empty.message": "Nenhum registro foi encontrado com o(s) dado(s) informado(s)",
+	"validation.data.doesnt.exist": "Registro não encontrado",
+	"validation.create.required": "O campo {{field}} não pode ser vazio"
+}
