@@ -77,6 +77,25 @@ export default class OpenMarketService {
     return data;
   }
 
+  async getById(req, id) {
+    await this.validate('getById', { id });
+    const data = await OpenMarket.findOne({
+      where: { id },
+    });
+
+    if (data.length === 0) {
+      return i18n.__('data.empty.message');
+    }
+
+    log(`${JSON.stringify({
+      type: 'getById',
+      request: JSON.stringify(req.ip),
+      date: moment().format('lll'),
+    })} \n\n`);
+
+    return data;
+  }
+
   async create(req) {
     const { body } = req;
     await this.validate('create', body);
@@ -88,10 +107,12 @@ export default class OpenMarketService {
       date: moment().format('lll'),
     })} \n\n`);
 
-    return OpenMarket.create(body, {
+    const data = await OpenMarket.create(body, {
       returning: true,
       req: this.req,
     });
+
+    return data;
   }
 
   async deleteById(id, req) {

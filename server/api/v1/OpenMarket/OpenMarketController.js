@@ -15,12 +15,27 @@ const getByParams = async (req, res, next) => {
   }
 };
 
+const getById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    Logger.debug(`Request -> ${JSON.stringify(req.ip)}`);
+    Logger.debug(`Search Id -> ${JSON.stringify(id)}`);
+    const action = new OpenMarketService();
+    const data = await action.getById(req, id);
+    res.json(data);
+  } catch (error) {
+    Logger.error(error);
+    next(error);
+  }
+};
+
 const create = async (req, res, next) => {
   try {
     Logger.debug(`Request -> ${JSON.stringify(req.ip)}`);
     Logger.debug(`Body -> ${JSON.stringify(req.body)}`);
     const action = new OpenMarketService();
     const data = await action.create(req);
+    res.body = data;
     res.json(data);
   } catch (error) {
     Logger.error(error);
@@ -58,5 +73,5 @@ const deleteById = async (req, res, next) => {
 };
 
 export {
-  getByParams, create, deleteById, update,
+  getByParams, create, deleteById, update, getById
 };

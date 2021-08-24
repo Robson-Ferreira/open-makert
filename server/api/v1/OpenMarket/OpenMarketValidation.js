@@ -40,5 +40,10 @@ export default function validate() {
         .string()
         .required(i18n.__('validation.create.required', { field: 'id' })),
     }),
+    getById: yup.object().shape({
+      id: yup
+        .string()
+        .required(i18n.__('validation.create.required', { field: 'id' })),
+    }),
   };
 }
