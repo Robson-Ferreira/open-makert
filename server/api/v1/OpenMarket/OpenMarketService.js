@@ -23,7 +23,7 @@ export default class OpenMarketService {
   __getConditions(query) {
     const {
       district,
-      region,
+      region5,
       name,
       neighborhood,
     } = query;
@@ -36,9 +36,9 @@ export default class OpenMarketService {
       };
     }
 
-    if (region) {
+    if (region5) {
       whereCondition.region5 = {
-        [Op.iLike]: `%${region}%`,
+        [Op.iLike]: `%${region5}%`,
       };
     }
 
