@@ -64,7 +64,9 @@ export default class OpenMarketService {
     });
 
     if (data.length === 0) {
-      return i18n.__('data.empty.message');
+      return {
+        message: i18n.__('data.empty.message')
+      };
     }
 
     log(`${JSON.stringify({
