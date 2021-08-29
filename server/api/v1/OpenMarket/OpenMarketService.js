@@ -154,10 +154,14 @@ export default class OpenMarketService {
       date: moment().format('lll'),
     })} \n\n`);
 
-    return OpenMarket.update(body, {
+    const data = await OpenMarket.update(body, {
       where: { id },
-      bulkQuery: [actionQuery],
-      req,
-    });
+      returning: true,
+      req: req,
+      plain: true,
+      bulkQuery: actionQuery,
+    }).then((res) => res[1]);
+
+    return data;
   }
 }

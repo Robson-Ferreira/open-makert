@@ -1,57 +1,96 @@
 import request from 'supertest';
+import loadData from '../scripts/loadData';
 import Server from '../server/index';
 
 let create;
 
+test('the number of rows in the spreadsheet must be the same as in the database', async () => {
+    const xlsxRows = await loadData();
+    
+    const databaseRows = await request(Server)
+    .get('/api/v1/open-market')
+    .expect('Content-Type', /json/)
+    .expect(200);
+
+    expect(databaseRows.body.length).toBe(xlsxRows.length);
+});
+
 test('must create a new record in the database', async () => {
-    await request(Server).post('/api/v1/open-market').send({
+    const bodyTest = {
         name: `example`,
         district: `example`,
         neighborhood: `example`,
         region5: `example`,
-    })
+    }
+
+    const data = await request(Server).post('/api/v1/open-market').send(bodyTest)
     .expect('Content-Type', /json/)
-    .expect(200)
-    .then((data) => {
-        create = data.body;
-    })
+    .expect(200);
+
+    expect(data.body).toHaveProperty('name');
+    expect(data.body.name).toBe(bodyTest.name);
+
+    expect(data.body).toHaveProperty('district');
+    expect(data.body.district).toBe(bodyTest.district);
+
+    expect(data.body).toHaveProperty('neighborhood');
+    expect(data.body.neighborhood).toBe(bodyTest.neighborhood);
+
+    expect(data.body).toHaveProperty('region5');
+    expect(data.body.region5).toBe(bodyTest.region5);
+
+    create = data.body;
 });
 
 test('should return an error because body is empty', async () => {
     await request(Server).post('/api/v1/open-market').send({})
     .expect('Content-Type', /json/)
-    .expect(500)
+    .expect(400);
 });
 
 test('must find a record in the database by id', async () => {
     await request(Server)
     .get(`/api/v1/open-market/${create.id}`)
     .expect('Content-Type', /json/)
-    .expect(200)
+    .expect(200);
 });
 
 test('must allow editing user by id', async () => {
-    await request(Server)
-    .put(`/api/v1/open-market/${create.id}`).send({
-        name: `example`,
-        district: `example`,
-        neighborhood: `example`,
-        region5: `example`,
-    })
+    const data = {
+        name: `exampleNameUpdate`,
+        district: `exampleDistrictUpdate`,
+        neighborhood: `exampleNeighborhoodUpdate`,
+        region5: `exampleRegion5Update`,
+    };
+
+    const res = await request(Server)
+    .put(`/api/v1/open-market/${create.id}`).send(data)
     .expect('Content-Type', /json/)
-    .expect(200)
+    .expect(200);
+
+    expect(res.body).toHaveProperty('name');
+    expect(res.body.name).toBe(data.name);
+
+    expect(res.body).toHaveProperty('district');
+    expect(res.body.district).toBe(data.district);
+
+    expect(res.body).toHaveProperty('neighborhood');
+    expect(res.body.neighborhood).toBe(data.neighborhood);
+
+    expect(res.body).toHaveProperty('region5');
+    expect(res.body.region5).toBe(data.region5);
 });
 
 test('must delete a record by id', async () => {
     await request(Server)
     .delete(`/api/v1/open-market/${create.id}`)
     .expect('Content-Type', /json/)
-    .expect(200)
+    .expect(200);
 });
 
-test('should return an error', async () => {
+test('should return an error on delete because id is invalid', async () => {
     await request(Server)
-    .delete(`/api/v1/open-market/65498446546`)
+    .delete(`/api/v1/open-market/${-1}`)
     .expect('Content-Type', /json/)
-    .expect(500)
+    .expect(400);
 });

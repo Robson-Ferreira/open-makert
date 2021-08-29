@@ -105,6 +105,7 @@ const loadData = async () => {
     }
 
     await transaction.commit();
+    return data;
   } catch (error) {
     Logger.error(error);
     await transaction.rollback();
