@@ -1,4 +1,5 @@
 import request from 'supertest';
+import faker from 'faker';
 import loadData from '../scripts/loadData';
 import Server from '../server/index';
 
@@ -17,10 +18,10 @@ test('the number of rows in the spreadsheet must be the same as in the database'
 
 test('must create a new record in the database', async () => {
     const bodyTest = {
-        name: `example`,
-        district: `example`,
-        neighborhood: `example`,
-        region5: `example`,
+        name: faker.fake('{{name.title}}'),
+        district: faker.fake('{{address.city}}'),
+        neighborhood: faker.fake('{{address.streetSuffix}}'),
+        region5: faker.fake('{{address.direction}}'),
     }
 
     const data = await request(Server).post('/api/v1/open-market').send(bodyTest)
@@ -57,10 +58,10 @@ test('must find a record in the database by id', async () => {
 
 test('must allow editing user by id', async () => {
     const data = {
-        name: `exampleNameUpdate`,
-        district: `exampleDistrictUpdate`,
-        neighborhood: `exampleNeighborhoodUpdate`,
-        region5: `exampleRegion5Update`,
+        name: faker.fake('{{name.title}}'),
+        district: faker.fake('{{address.city}}'),
+        neighborhood: faker.fake('{{address.streetSuffix}}'),
+        region5: faker.fake('{{address.direction}}'),
     };
 
     const res = await request(Server)
